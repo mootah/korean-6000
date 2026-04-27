@@ -1,0 +1,67 @@
+{{FrontSide}}
+<article>
+  <header>
+    {{#pos}}<kbd>{{pos}}</kbd>{{/pos}}
+    <!-- -->
+    {{#level}}<kbd>{{level}}</kbd>{{/level}}
+    <!-- -->
+    {{#priority}}<kbd>{{priority}}</kbd>{{/priority}}
+    <!-- -->
+    {{#rank}}<kbd>#{{rank}}</kbd>{{/rank}}
+  </header>
+  <section>
+    <p>
+      {{target_ja}}
+      <br />
+      <small>
+        {{#origin}}【{{origin}}】{{/origin}}
+        <!-- -->
+        {{definition}}
+      </small>
+    </p>
+    {{#sentence_ja}}
+    <blockquote>{{sentence_ja}}</blockquote>
+    {{/sentence_ja}}
+  </section>
+  <section>{{examples}}</section>
+  <footer>
+    <div role="group">
+      {{#link}}
+      <a href="{{link}}">
+        <i class="icon-dictionary"></i>
+      </a>
+      {{/link}}
+      <a href="https://korean.dict.naver.com/kojadict/#/search?query=<target>">
+        <i class="icon-translation"></i>
+      </a>
+      <a href="https://youglish.com/pronounce/<target>/korean">
+        <i class="icon-listening"></i>
+      </a>
+      <a href="https://chatgpt.com/?prompt=<prompt>">
+        <i class="icon-ai"></i>
+      </a>
+    </div>
+  </footer>
+</article>
+<script>
+  {
+    const formatLinks = () => {
+      const target = `{{text:target}}` || `{{text:sentence}}`;
+      const sentence = `{{text:sentence}}`;
+      const prompt_text = sentence
+        ? `「${target}」「${sentence}」の意味と解説をください`
+        : `「${target}」の意味と例文をください`;
+      const encoded_target = encodeURIComponent(target);
+      const encoded_sentence = encodeURIComponent(sentence);
+      const encoded_prompt = encodeURIComponent(prompt_text);
+      const links = document.querySelectorAll("a");
+
+      links.forEach((e) => {
+        e.href = e.href.replace(encodeURI("<target>"), encoded_target);
+        e.href = e.href.replace(encodeURI("<sentence>"), encoded_sentence);
+        e.href = e.href.replace(encodeURI("<prompt>"), encoded_prompt);
+      });
+    };
+    formatLinks();
+  }
+</script>
